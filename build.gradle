@@ -57,9 +57,9 @@ idea {
 
 jar {
   manifest {
-    attributes("Implementation-Title": "CppTool-Metrics", 
+    attributes("Implementation-Title": "CppTool-GUI", 
                "Implementation-Version": version,
-               "Main-Class": "nl.rug.search.cpptool.metrics.Main")
+               "Main-Class": "nl.rug.search.cpptool.gui.Main")
   }
 }
 
