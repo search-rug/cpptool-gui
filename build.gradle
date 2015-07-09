@@ -1,0 +1,68 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.1'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'com.github.johnrengelman.shadow' //shadow plugin
+
+repositories {
+    jcenter()
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+version = '0.1'
+
+dependencies {
+    compile project("cpptool-lib-core")
+    testCompile 'junit:junit:4.12'
+}
+
+
+//
+// Intellij Idea configuration
+//
+
+idea {
+    project {
+        jdkName = '1.8'
+        languageLevel = '1.8'
+
+        ipr.withXml { xmlFile ->
+            // setup Git root
+            xmlFile.asNode().component.find { it.@name == 'VcsDirectoryMappings' }.replaceNode {
+                component(name: 'VcsDirectoryMappings') {
+                    mapping(directory: "", vcs: "")
+                    mapping(directory: "\$PROJECT_DIR\$", vcs: 'Git')
+                    mapping(directory: "\$PROJECT_DIR\$/cpptool-lib-core", vcs: 'Git')
+                    mapping(directory: "\$PROJECT_DIR\$/cpptool-lib-core/cpptool-proto", vcs: 'Git')
+                }
+            }
+        }
+    }
+}
+
+
+//
+// Packaging (jar/fatjar) configuration
+//
+
+jar {
+  manifest {
+    attributes("Implementation-Title": "CppTool-Metrics", 
+               "Implementation-Version": version,
+               "Main-Class": "nl.rug.search.cpptool.metrics.Main")
+  }
+}
+
+shadowJar {
+
+}
